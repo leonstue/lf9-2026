@@ -1,0 +1,207 @@
+openapi: 3.0.1
+info:
+  title: Todo-Listen-Verwaltung
+  description: ""
+  contact:
+    email: leon.stuempeley@gmx.de
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.1.0
+servers:
+  - url: http://127.0.0.1:5000/
+tags:
+  - name: Listenverwaltung
+paths:
+  /list/{list_id}:
+    get:
+      tags:
+        - Listeintragverwaltung
+      summary: Get all items from list
+      operationId: getList
+      parameters:
+        - name: list_id
+          in: path
+          description: list id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: List item returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TodoEntry"
+        404:
+          description: Invalid list id
+          content: {}
+    post:
+      tags:
+        - Listeintragverwaltung
+      summary: Add new item to list
+      operationId: addListItem
+      parameters:
+        - name: list_id
+          in: path
+          description: list id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: todo entry object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TodoEntry"
+        required: true
+      responses:
+        200:
+          description: List item added
+          content: {}
+        404:
+          description: Invalid list id
+          content: {}
+        500:
+          description: List item could not be added
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - Listenverwaltung
+      summary: Delete a list
+      operationId: deleteList
+      parameters:
+        - name: list_id
+          in: path
+          description: list id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: List was deleted
+          content: {}
+        404:
+          description: Invalid list id
+          content: {}
+  /list:
+    get:
+      tags:
+        - Listenverwaltung
+      summary: Get all lists
+      operationId: getLists
+      responses:
+        200:
+          description: Lists returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TodoList"
+    post:
+      tags:
+        - Listenverwaltung
+      summary: Add new list
+      operationId: addList
+      requestBody:
+        description: list object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TodoList"
+        required: true
+      responses:
+        200:
+          description: List added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TodoList"
+        500:
+          description: List could not be added
+          content: {}
+      x-codegen-request-body-name: body
+  /list/entry/{entry_id}:
+    patch:
+      tags:
+        - Listeintragverwaltung
+      summary: Update list entry
+      operationId: updateListEntry
+      parameters:
+        - name: entry_id
+          in: path
+          description: entry id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: updated todo entry object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TodoEntryUpdate"
+        required: true
+      responses:
+        200:
+          description: List item updated
+          content: {}
+        404:
+          description: Invalid entry id
+          content: {}
+        500:
+          description: List item could not be updated
+          content: {}
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    TodoList:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      required:
+        - id
+        - name
+    TodoEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        user_id:
+          type: string
+          format: uuid
+        list_id:
+          type: string
+          format: uuid
+      required:
+        - id
+        - name
+        - description
+        - user_id
+        - list_id
+    TodoEntryUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - name
+        - description
