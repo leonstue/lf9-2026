@@ -39,6 +39,12 @@ paths:
         404:
           description: Invalid list id
           content: {}
+        429:
+          description: Too many requests have been sent
+          content: {}
+        500:
+          description: Internal server error has occurred
+          content: {}
     post:
       tags:
         - Listeintragverwaltung
@@ -67,7 +73,10 @@ paths:
           description: Invalid list id
           content: {}
         500:
-          description: List item could not be added
+          description: Internal server error has occurred
+          content: {}
+        429:
+          description: Too many requests have been sent
           content: {}
       x-codegen-request-body-name: body
     delete:
@@ -90,6 +99,12 @@ paths:
         404:
           description: Invalid list id
           content: {}
+        429:
+          description: Too many requests have been sent
+          content: {}
+        500:
+          description: Internal server error has occurred
+          content: {}
   /list:
     get:
       tags:
@@ -105,6 +120,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/TodoList"
+        429:
+          description: Too many requests have been sent
+          content: {}
+        500:
+          description: Internal server error has occurred
+          content: {}
     post:
       tags:
         - Listenverwaltung
@@ -124,8 +145,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TodoList"
+        429:
+          description: Too many requests have been sent
+          content: {}
         500:
-          description: List could not be added
+          description: Internal server error has occurred
           content: {}
       x-codegen-request-body-name: body
   /list/entry/{entry_id}:
@@ -156,8 +180,11 @@ paths:
         404:
           description: Invalid entry id
           content: {}
+        429:
+          description: Too many requests have been sent
+          content: {}
         500:
-          description: List item could not be updated
+          description: Internal server error has occurred
           content: {}
       x-codegen-request-body-name: body
 components:
