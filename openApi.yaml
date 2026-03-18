@@ -63,7 +63,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TodoEntry"
+              $ref: "#/components/schemas/TodoEntryBody"
         required: true
       responses:
         200:
@@ -136,7 +136,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TodoList"
+              $ref: "#/components/schemas/TodoListBody"
         required: true
       responses:
         200:
@@ -171,7 +171,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TodoEntryUpdate"
+              $ref: "#/components/schemas/TodoEntryBody"
         required: true
       responses:
         200:
@@ -222,7 +222,14 @@ components:
         - description
         - user_id
         - list_id
-    TodoEntryUpdate:
+    TodoListBody:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    TodoEntryBody:
       type: object
       properties:
         name:
