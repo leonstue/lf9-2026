@@ -6,8 +6,6 @@ app = Flask(__name__)
 todo_lists = {}     # {list_id: {"name": <name>}}
 todo_entries = {}   # {entry_id: {"name": <name>, "description": <description>, "user_id": <user_id>, "list_id": <list_id>}}
 
-list_id_counter = 0
-entry_id_counter = 0
 
 #Build the return object for a list
 def build_list(list_id):
