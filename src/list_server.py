@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import uuid
 
 app = Flask(__name__)
 
@@ -33,6 +34,15 @@ def build_entries(list_id):
 @app.route("/todo-list", methods=["GET"])
 def get_lists():
     return jsonify(build_lists()), 200
+
+#Add new list
+@app.route("/todo-list", methods=["POST"])
+def add_list():
+    body = request.get_json
+    if not body or "name" not in body:
+        return "", 400
+    list_id = str(uuid.uuid5)
+    #TODO continue here
 
 
 if __name__ == "__main__":
