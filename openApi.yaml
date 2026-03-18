@@ -13,7 +13,7 @@ servers:
 tags:
   - name: Listenverwaltung
 paths:
-  /list/{list_id}:
+  /todo-list/{list_id}:
     get:
       tags:
         - Listeintragverwaltung
@@ -105,7 +105,7 @@ paths:
         500:
           description: Internal server error has occurred
           content: {}
-  /list:
+  /todo-list:
     get:
       tags:
         - Listenverwaltung
