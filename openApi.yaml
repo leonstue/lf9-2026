@@ -9,7 +9,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.1.0
 servers:
-  - url: http://127.0.0.1:5000/
+  - url: https://turbo-space-journey-7pjp9gv7g9j2r55w-5000.app.github.dev/
 tags:
   - name: Listenverwaltung
 paths:
@@ -236,9 +236,6 @@ components:
           type: string
         description:
           type: string
-        user_id:
-          type: string
-          format: uuid
         list_id:
           type: string
           format: uuid
@@ -246,7 +243,6 @@ components:
         - id
         - name
         - description
-        - user_id
         - list_id
     TodoListBody:
       type: object
