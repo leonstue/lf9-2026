@@ -152,7 +152,7 @@ paths:
           description: Internal server error has occurred
           content: {}
       x-codegen-request-body-name: body
-  /list/entry/{entry_id}:
+  /todo-list/entry/{entry_id}:
     patch:
       tags:
         - Listeintragverwaltung
@@ -187,6 +187,32 @@ paths:
           description: Internal server error has occurred
           content: {}
       x-codegen-request-body-name: body
+    delete:
+      tags:
+        - Listeintragverwaltung
+      summary: Delete a list entry
+      operationId: deleteListEntry
+      parameters:
+        - name: entry_id
+          in: path
+          description: entry id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: List Entry was deleted
+          content: {}
+        404:
+          description: Invalid list Entry id
+          content: {}
+        429:
+          description: Too many requests have been sent
+          content: {}
+        500:
+          description: Internal server error has occurred
+          content: {}
 components:
   schemas:
     TodoList:
