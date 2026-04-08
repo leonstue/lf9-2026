@@ -41,9 +41,35 @@ def add_list():
     body = request.get_json
     if not body or "name" not in body:
         return "", 400
+    #Save list to object
     list_id = str(uuid.uuid5)
-    #TODO continue here
+    todo_lists[list_id] = {
+        "name": body["name"]
+    }
 
+    return jsonify(build_list(list_id)), 201
+
+#Get a single list with all entries
+@app.route("/todo-list/<list_id>", methods=["GET"])
+def get_list(list_id):
+    if list_id not in todo_lists:
+        return "", 404
+
+    return jsonify( build_entries(list_id)), 200
+
+#Delete a list and all entries
+@app.route("/todo-list/<list_id>")
+def delete_list(list_id):
+    if list_id not in todo_lists:
+        return "", 404
+    del todo_lists[list_id]
+    entries_to_delete = []
+    for key in todo_entries.keys():
+        if todo_entries[key]["list_id"] == list_id:
+            del todo_entries[key]
+    return "", 204
+
+    
 
 if __name__ == "__main__":
     app.run(port=5000)
