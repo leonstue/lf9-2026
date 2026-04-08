@@ -43,11 +43,11 @@ def get_lists():
 #Add new list
 @app.route("/todo-list", methods=["POST"])
 def add_list():
-    body = request.get_json
+    body = request.get_json()
     if not body or "name" not in body:
         return "", 400
     #Save list to object
-    list_id = str(uuid.uuid5)
+    list_id = str(uuid.uuid4())
     todo_lists[list_id] = {
         "name": body["name"]
     }
