@@ -97,5 +97,13 @@ def add_entry_to_list(list_id):
 
     return jsonify(build_entry(entry_id)), 201
 
+
+@app.route("/todo-list/entry/<entry_id>", methods=["DELETE"])
+def delete_entry(entry_id):
+    if entry_id not in todo_entries.keys():
+        return "", 404
+    del todo_entries[entry_id]
+    return "", 204
+
 if __name__ == "__main__":
     app.run(port=5000)
