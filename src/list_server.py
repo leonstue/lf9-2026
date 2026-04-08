@@ -25,7 +25,12 @@ def build_entries(list_id):
     return [build_entry(entry_id) for entry_id in todo_entries if todo_entries[entry_id]["list_id"] == list_id]
 
 
-
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PATCH, DELETE"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    return response
 
 
 # Controller
