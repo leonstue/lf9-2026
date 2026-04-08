@@ -66,7 +66,7 @@ paths:
               $ref: "#/components/schemas/TodoEntryBody"
         required: true
       responses:
-        200:
+        201:
           description: List item added
           content: {}
         404:
@@ -93,7 +93,7 @@ paths:
             type: string
             format: uuid
       responses:
-        200:
+        204:
           description: List was deleted
           content: {}
         404:
@@ -139,7 +139,7 @@ paths:
               $ref: "#/components/schemas/TodoListBody"
         required: true
       responses:
-        200:
+        201:
           description: List added
           content:
             application/json:
@@ -201,7 +201,7 @@ paths:
             type: string
             format: uuid
       responses:
-        200:
+        204:
           description: List Entry was deleted
           content: {}
         404:
