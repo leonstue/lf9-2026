@@ -63,7 +63,7 @@ def get_list(list_id):
     return jsonify( build_entries(list_id)), 200
 
 #Delete a list and all entries
-@app.route("/todo-list/<list_id>")
+@app.route("/todo-list/<list_id>", methods=["DELETE"])
 def delete_list(list_id):
     if list_id not in todo_lists:
         return "", 404
