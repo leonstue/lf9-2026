@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # Variable dictionaries to save the data
 todo_lists = {}     # {list_id: {"name": <name>}}
-todo_entries = {}   # {entry_id: {"name": <name>, "description": <description>, "user_id": <user_id>, "list_id": <list_id>}}
+todo_entries = {}   # {entry_id: {"name": <name>, "description": <description>, "list_id": <list_id>}}
 
 
 #Build the return object for a list
@@ -74,7 +74,28 @@ def delete_list(list_id):
             del todo_entries[key]
     return "", 204
 
+#Add a new item to a list
+@app.route("/todo-list/<list_id>", methods=["POST"])
+def add_entry_to_list(list_id):
+    if list_id not in todo_lists:
+        return "", 404
     
+    body = request.get_json()
+    if not body:
+        return "", 400
+
+    required_fields = ["name", "description"]
+    if any(field not in body for field in required_fields):
+        return "", 400
+
+    entry_id = str(uuid.uuid4())
+    todo_entries[entry_id] = {
+        "name": body["name"],
+        "description": body["description"],
+        "list_id": list_id
+    }
+
+    return jsonify(build_entry(entry_id)), 201
 
 if __name__ == "__main__":
     app.run(port=5000)
