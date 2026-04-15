@@ -97,7 +97,7 @@ def add_entry_to_list(list_id):
 
     return jsonify(build_entry(entry_id)), 201
 
-
+#Delete an entry
 @app.route("/todo-list/entry/<entry_id>", methods=["DELETE"])
 def delete_entry(entry_id):
     if entry_id not in todo_entries.keys():
