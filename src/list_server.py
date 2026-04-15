@@ -105,5 +105,21 @@ def delete_entry(entry_id):
     del todo_entries[entry_id]
     return "", 204
 
+#Update an entry
+@app.route("/todo-list/entry/<entry_id>", methods=["PATCH"])
+def update_entry(entry_id):
+    if entry_id not in todo_entries.keys():
+        return "", 404
+    body = request.get_json()
+    if not body:
+        return "", 400
+    if "name" in body:
+        todo_entries[entry_id]["name"] = body["name"]
+    if "description" in body:
+        todo_entries[entry_id]["description"] = body["description"]
+    return jsonify(build_entry(entry_id)), 200
+
+
+
 if __name__ == "__main__":
     app.run(port=5000)
