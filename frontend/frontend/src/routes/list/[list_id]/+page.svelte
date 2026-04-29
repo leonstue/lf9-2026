@@ -3,7 +3,7 @@
     import { onMount } from "svelte";
     import { page } from "$app/state";
 
-    const API = "http://127.0.0.1:5000";
+    const API = "https://api.sahgame.de";
     let entries = $state([]);
     let newName = $state("");
     let newDesc = $state("");

@@ -4,6 +4,6 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	plugins: [sveltekit()],
 	preview: {
-		allowedHosts: ['sahgame.de']
+		allowedHosts: ['sahgame.de', 'api.sahgame.de', 'traefik.sahgame.de']
 	}
 });

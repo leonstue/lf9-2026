@@ -1,16 +1,58 @@
 services:
+  traefik:
+    image: traefik:v3.1
+    container_name: traefik
+    restart: unless-stopped
+    command:
+      - "--log.level=INFO"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--entrypoints.http.http.redirections.entrypoint.to=https"
+      - "--entrypoints.http.http.redirections.entrypoint.scheme=https"
+      - "--certificatesresolvers.le.acme.email=alexander.pohle@innovaitec.de"
+      - "--certificatesresolvers.le.acme.storage=/acme.json"
+      - "--certificatesresolvers.le.acme.httpchallenge=true"
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=http"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./acme.json:/acme.json
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.sahgame.de`)"
+      - "traefik.http.routers.dashboard.entrypoints=https"
+      - "traefik.http.routers.dashboard.tls.certresolver=le"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=dashboard-auth"
+      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:$$apr1$$REPLACE$$REPLACE"
+
   pro:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: pro
-    ports:
-      - "5000:5000"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pro.rule=Host(`api.sahgame.de`)"
+      - "traefik.http.routers.pro.entrypoints=https"
+      - "traefik.http.routers.pro.tls.certresolver=le"
+      - "traefik.http.services.pro.loadbalancer.server.port=5000"
 
   pro_fr:
     build:
       context: .
       dockerfile: frontend/Dockerfile
     container_name: pro_fr
-    ports:
-      - "4173:4173"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pro_fr.rule=Host(`sahgame.de`)"
+      - "traefik.http.routers.pro_fr.entrypoints=https"
+      - "traefik.http.routers.pro_fr.tls.certresolver=le"
+      - "traefik.http.services.pro_fr.loadbalancer.server.port=4173"

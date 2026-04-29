@@ -2,7 +2,7 @@
     import TodoList from "$lib/components/Todo-List.svelte";
     import { onMount } from "svelte";
 
-    const API = "http://127.0.0.1:5000";
+    const API = "https://api.sahgame.de";
     let lists = $state([]);
     let newName = $state("");
 
