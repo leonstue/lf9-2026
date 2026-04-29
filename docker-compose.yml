@@ -1,0 +1,16 @@
+services:
+  pro:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pro
+    ports:
+      - "5000:5000"
+
+  pro_fr:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: pro_fr
+    ports:
+      - "4173:4173"
