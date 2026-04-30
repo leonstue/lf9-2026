@@ -12,7 +12,7 @@ services:
       - "--entrypoints.https.address=:443"
       - "--entrypoints.http.http.redirections.entrypoint.to=https"
       - "--entrypoints.http.http.redirections.entrypoint.scheme=https"
-      - "--certificatesresolvers.le.acme.email=alexander.pohle@innovaitec.de"
+      - "--certificatesresolvers.le.acme.email=leon.stuempeley@gmx.de"
       - "--certificatesresolvers.le.acme.storage=/acme.json"
       - "--certificatesresolvers.le.acme.httpchallenge=true"
       - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=http"
