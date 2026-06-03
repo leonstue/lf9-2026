@@ -1,5 +1,13 @@
 from flask import Flask, request, jsonify
+import logging
+import sys
 import uuid
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+    stream=sys.stdout,
+)
 
 app = Flask(__name__)
 
@@ -34,6 +42,10 @@ def add_cors_headers(response):
 
 
 # Controller
+
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "ok"}), 200
 
 #Get all lists
 @app.route("/todo-list", methods=["GET"])
