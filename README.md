@@ -11,9 +11,9 @@ Das Frontend ist mit SvelteKit gebaut, das Backend mit Python (Flask). Davor sit
 1. [Projektbeschreibung](#projektbeschreibung)
 2. [Architektur](#architektur)
 3. [Server-Einrichtung](#server-einrichtung)
-4. [DNS-Einträge](#dns-einträge)
-5. [Anpassung für eigene Domain](#anpassung-für-eigene-domain)
-6. [Deployment](#deployment)
+4. [Deployment](#deployment)
+5. [DNS-Einträge](#dns-einträge)
+6. [Anpassung für eigene Domain](#anpassung-für-eigene-domain) 
 7. [Erreichbarkeit](#erreichbarkeit)
 8. [Monitoring & Logging](#monitoring--logging)
 9. [Firewall-Übersicht](#firewall-übersicht)
@@ -260,54 +260,6 @@ ssh fernzugriff@sahgame.de
 
 ---
 
-## DNS-Einträge
-
-Bei name.com wurden DNS-Einträge auf die öffentliche IP-Adresse des Droplets gesetzt.
-
-Verwendete Hostnamen:
-
-| Hostname | Wofür |
-| --- | --- |
-| `sahgame.de` | Frontend |
-| `api.sahgame.de` | Backend (REST-API) |
-| `traefik.sahgame.de` | Traefik-Dashboard |
-| `grafana.sahgame.de` | Grafana |
-
-Konkret gesetzt wurden zwei Einträge:
-
-```txt
-sahgame.de
-*.sahgame.de
-```
-
-Der Wildcard-Eintrag deckt alle Subdomains ab.
-
----
-
-## Anpassung für eigene Domain
-
-Im Repo steht überall `sahgame.de` als Beispiel-Domain und `leon.stuempeley@gmx.de` als Kontakt-E-Mail für Let's Encrypt. Wenn man das Projekt auf eine eigene Domain umzieht, müssen folgende Stellen angepasst werden:
-
-| Datei | Stelle | Was ändern |
-| --- | --- | --- |
-| `docker-compose.yml` | `--certificatesresolvers.le.acme.email=…` | Eigene E-Mail für Let's Encrypt |
-| `docker-compose.yml` | `traefik.http.routers.*.rule=Host(…)` (4×) | Eigene Hostnamen für Frontend, API, Traefik, Grafana |
-| `docker-compose.yml` | `configs.prometheus_config.content` → `targets:` unter Job `uptime` | URLs der Uptime-Checks |
-| `frontend/frontend/vite.config.js` | `server.allowedHosts: [...]` | Eigene Hostnamen |
-| `frontend/frontend/src/routes/+page.svelte` | `const API = "https://api.sahgame.de";` | URL der eigenen API |
-| `frontend/frontend/src/routes/list/[list_id]/+page.svelte` | `const API = "https://api.sahgame.de";` | URL der eigenen API |
-| `openApi.yaml` | `info.contact.email` | Eigene Kontakt-E-Mail |
-
-Zum schnellen Checken, ob noch was übrig geblieben ist:
-
-```bash
-grep -rn "sahgame.de" --exclude-dir=node_modules --exclude-dir=.git .
-grep -rn "leon.stuempeley" --exclude-dir=node_modules --exclude-dir=.git .
-```
-
-Nach dem Anpassen sollten beide Befehle nur noch Treffer in dieser README liefern.
-
----
 
 ## Deployment
 
@@ -430,6 +382,58 @@ Und schauen, ob alles wieder läuft:
 ```bash
 docker compose ps
 ```
+
+
+
+
+---
+
+## DNS-Einträge
+
+Bei name.com wurden DNS-Einträge auf die öffentliche IP-Adresse des Droplets gesetzt.
+
+Verwendete Hostnamen:
+
+| Hostname | Wofür |
+| --- | --- |
+| `sahgame.de` | Frontend |
+| `api.sahgame.de` | Backend (REST-API) |
+| `traefik.sahgame.de` | Traefik-Dashboard |
+| `grafana.sahgame.de` | Grafana |
+
+Konkret gesetzt wurden zwei Einträge:
+
+```txt
+sahgame.de
+*.sahgame.de
+```
+
+Der Wildcard-Eintrag deckt alle Subdomains ab.
+
+---
+
+## Anpassung für eigene Domain
+
+Im Repo steht überall `sahgame.de` als Beispiel-Domain und `leon.stuempeley@gmx.de` als Kontakt-E-Mail für Let's Encrypt. Wenn man das Projekt auf eine eigene Domain umzieht, müssen folgende Stellen angepasst werden:
+
+| Datei | Stelle | Was ändern |
+| --- | --- | --- |
+| `docker-compose.yml` | `--certificatesresolvers.le.acme.email=…` | Eigene E-Mail für Let's Encrypt |
+| `docker-compose.yml` | `traefik.http.routers.*.rule=Host(…)` (4×) | Eigene Hostnamen für Frontend, API, Traefik, Grafana |
+| `docker-compose.yml` | `configs.prometheus_config.content` → `targets:` unter Job `uptime` | URLs der Uptime-Checks |
+| `frontend/frontend/vite.config.js` | `server.allowedHosts: [...]` | Eigene Hostnamen |
+| `frontend/frontend/src/routes/+page.svelte` | `const API = "https://api.sahgame.de";` | URL der eigenen API |
+| `frontend/frontend/src/routes/list/[list_id]/+page.svelte` | `const API = "https://api.sahgame.de";` | URL der eigenen API |
+| `openApi.yaml` | `info.contact.email` | Eigene Kontakt-E-Mail |
+
+Zum schnellen Checken, ob noch was übrig geblieben ist:
+
+```bash
+grep -rn "sahgame.de" --exclude-dir=node_modules --exclude-dir=.git .
+grep -rn "leon.stuempeley" --exclude-dir=node_modules --exclude-dir=.git .
+```
+
+Nach dem Anpassen sollten beide Befehle nur noch Treffer in dieser README liefern.
 
 ---
 
