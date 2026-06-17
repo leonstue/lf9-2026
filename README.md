@@ -52,6 +52,30 @@ Das Projekt ist im Rahmen vom Lernfeld 9 in der Schule entstanden.
 | Hosting | DigitalOcean Droplet (Ubuntu) |
 | Firewall | UFW |
 
+### Verzeichnisstruktur
+
+Grober Überblick, wo im Repo was liegt:
+
+```
+.
+├── src/                    # Python-Backend (Flask)
+│   └── list_server.py
+├── frontend/
+│   ├── Dockerfile          # Dockerfile fürs Frontend
+│   └── frontend/           # eigentlicher SvelteKit-Code
+│       ├── src/
+│       ├── package.json
+│       ├── vite.config.js
+│       └── README.md       # von SvelteKit selbst angelegt, kann ignoriert werden
+├── Dockerfile              # Dockerfile fürs Backend
+├── docker-compose.yml      # gesamte Anwendung + Monitoring-Stack
+├── openApi.yaml            # OpenAPI-Spezifikation der REST-API
+├── acme.json               # wird vor dem ersten Start angelegt (Let's-Encrypt-Zertifikate)
+└── .env                    # Grafana-Login, selbst anlegen
+```
+
+Die `README.md` in `frontend/frontend/` ist die Standard-README, die `npx sv create` beim Anlegen eines SvelteKit-Projekts mit reinpackt — die hat nichts mit diesem Projekt zu tun und kann ignoriert werden.
+
 ### Umgesetzte Punkte
 
 - Statische öffentliche IP-Adresse für den Server
